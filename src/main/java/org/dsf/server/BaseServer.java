@@ -9,7 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class HelloServer {
+public class BaseServer {
 	public void start(int port) throws Exception {  
         EventLoopGroup bossGroup = new NioEventLoopGroup();  
         EventLoopGroup workerGroup = new NioEventLoopGroup();  
@@ -20,8 +20,9 @@ public class HelloServer {
                         @Override  
                         public void initChannel(SocketChannel ch)  
                                 throws Exception {  
-                            // 注册handler  
-                            ch.pipeline().addLast(new HelloServerHandler());  
+                            // 注册handler,可以注册多个  
+                            ch.pipeline().addLast(new BaseServerHandler());  
+                            
                         }  
                     }).option(ChannelOption.SO_BACKLOG, 128)  
                     .childOption(ChannelOption.SO_KEEPALIVE, true);  
@@ -36,7 +37,7 @@ public class HelloServer {
     }  
   
     public static void main(String[] args) throws Exception {  
-        HelloServer server = new HelloServer();  
+        BaseServer server = new BaseServer();  
         server.start(8000);  
     }  
 }
